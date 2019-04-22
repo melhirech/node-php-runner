@@ -25,14 +25,27 @@ app.enable('trust proxy')
 
 app.get('/', (req, res) => {
     const PHP_PATH = req.query.path
+    const command = `${PHP_PATH} -q ./test.php `
 
-    execPHP(PHP_PATH).then(result => {
+    execPHP(command).then(result => {
         res.send(result)
     }).catch(err => {
         res.send(err)
     })
 
 
+})
+
+app.get('/ls', (req, res) => {
+    
+    const path = req.query.path
+    const command = `ls ${path}`
+
+    execPHP(command).then(result => {
+        res.send(result)
+    }).catch(err => {
+        res.send(err)
+    })
 })
 
 app.get('/ip', (req, res) => {
@@ -44,13 +57,12 @@ app.get('/ip', (req, res) => {
     })
 })
 
-const execPHP = (phpPath) => {
+const execPHP = (command) => {
 
     /*     const paramsToBase64 = params.map(param => {
             return Buffer.from(JSON.stringify(param)).toString("base64")
         }) */
 
-    const command = `${phpPath} -q ./test.php `
 
     return new Promise((resolve, reject) => {
         exec(command,
