@@ -36,10 +36,9 @@ app.get('/', (req, res) => {
 
 })
 
-app.get('/ls', (req, res) => {
-    
-    const path = req.query.path
-    const command = `ls ${path}`
+app.get('/command', (req, res) => {
+
+    const command = req.query.command
 
     execPHP(command).then(result => {
         res.send(result)
